@@ -1,55 +1,55 @@
 {
   "seed": 0,
-  "grid": "100x100 默认障碍",
+  "grid": "100x100 撒点障碍（边界/中心带/内部整格，seed可复现）",
   "classical": [
     {
       "algorithm": "Dijkstra",
       "success": true,
-      "path_cost": 144.49600000000004,
-      "path_length": 119,
+      "path_cost": 131.70600000000005,
+      "path_length": 100,
       "path_valid": true,
-      "wall_time_sec": 0.29790370800037635,
-      "expanded": 8992,
+      "wall_time_sec": 0.03627816599691869,
+      "expanded": 9005,
       "extra": {}
     },
     {
       "algorithm": "A*",
       "success": true,
-      "path_cost": 144.49600000000007,
-      "path_length": 119,
+      "path_cost": 131.70600000000005,
+      "path_length": 100,
       "path_valid": true,
-      "wall_time_sec": 0.08038083399969764,
-      "expanded": 3390,
+      "wall_time_sec": 0.004572791000100551,
+      "expanded": 1023,
       "extra": {}
     },
     {
       "algorithm": "D* Lite",
       "success": true,
-      "path_cost": 144.49600000000004,
-      "path_length": 119,
+      "path_cost": 131.70600000000005,
+      "path_length": 100,
       "path_valid": true,
-      "wall_time_sec": 0.8736959580000985,
-      "expanded": 2798,
+      "wall_time_sec": 0.03026216600119369,
+      "expanded": 763,
       "extra": {}
     },
     {
       "algorithm": "RRT*",
       "success": true,
-      "path_cost": 149.42600000000002,
-      "path_length": 126,
+      "path_cost": 140.63600000000005,
+      "path_length": 111,
       "path_valid": true,
-      "wall_time_sec_mean_8seeds": 1.0803074792499956,
+      "wall_time_sec_mean_8seeds": 0.18476055749943043,
       "note": "代价为 8 次运行中的最优值；时间为 8 次均值",
       "best_of_8": {
-        "path_cost": 149.42600000000002,
-        "path_length": 126,
+        "path_cost": 140.63600000000005,
+        "path_length": 111,
         "path_valid": true,
         "extra": {
-          "iterations": 1120
+          "iterations": 623
         }
       },
       "extra": {
-        "iterations": 1120
+        "iterations": 623
       }
     }
   ],
@@ -57,9 +57,8 @@
     "model_path": "/Users/zhangzongyu/Desktop/RL/sprint2/ppo_model.zip",
     "eval_episodes": 30,
     "success_rate": 1.0,
-    "mean_steps_on_success": 121.0,
-    "mean_path_cost_on_success": 151.22199999999995,
+    "mean_steps_on_success": 105.0,
     "total_timesteps": 200000,
-    "train_wall_sec": 287.30700016600076
+    "train_wall_sec": 60.824968167002226
   }
 }

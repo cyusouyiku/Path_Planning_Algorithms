@@ -5,9 +5,10 @@ import numpy as np
 
 class GridEnvironment:
     """
-    100x100 路径规划网格环境。
-    障碍物采用撒点法，放置在网格边缘（围墙）及内部结构化墙段中心区域。
-    
+    100×100 路径规划网格环境。
+    障碍物采用 **撒点法（第一版）**：在「地图边界格」「中部中心带 [25,75)×[25,75)」
+    与「其余内部格」三类候选池中随机抽取整格置障；起终点 **5×5** 邻域不置障；重复采样直至八连通存在通路。
+
     网格值: 0 = 可通行, 1 = 障碍物
     坐标约定: (row, col)，左上角为 (0, 0)
     """
@@ -27,74 +28,101 @@ class GridEnvironment:
 
         self._build_obstacles()
 
-    def _build_obstacles(self):
-        """依次添加边界围墙、内部横纵墙段、中心方块。"""
-        self._add_border_walls()
-        self._add_horizontal_barriers()
-        self._add_vertical_barriers()
-        self._add_center_blocks()
-
-    def _add_border_walls(self):
-        """外围一圈围墙（边上撒点）。"""
-        self.grid[0,  :]  = self.OBSTACLE   # 上边
-        self.grid[-1, :]  = self.OBSTACLE   # 下边
-        self.grid[:,  0]  = self.OBSTACLE   # 左边
-        self.grid[:, -1]  = self.OBSTACLE   # 右边
-
-    def _add_horizontal_barriers(self):
-        """
-        水平隔离墙，每段预留一个缺口保证可通行性。
-        格式: (行, 列起, 列止, 缺口列起, 缺口列止)
-        """
-        h_barriers = [
-            (20,  5,  60, 28, 38),   # 上区横墙，缺口偏中
-            (38, 42,  95, 58, 68),   # 中区右横墙，缺口偏右
-            (60,  5,  65, 22, 32),   # 中区左横墙，缺口偏左
-            (75, 28,  95, 48, 58),   # 下区横墙，缺口居中
-        ]
-        for row, c0, c1, gs, ge in h_barriers:
-            for col in range(c0, c1 + 1):
-                if not (gs <= col <= ge):
-                    self.grid[row, col] = self.OBSTACLE
-
-    def _add_vertical_barriers(self):
-        """
-        垂直隔离墙，每段预留一个缺口保证可通行性。
-        格式: (列, 行起, 行止, 缺口行起, 缺口行止)
-        """
-        v_barriers = [
-            (25,  5,  55, 18, 28),   # 左区竖墙
-            (50,  5,  35, 14, 24),   # 上中竖墙
-            (70, 42,  90, 58, 68),   # 右下竖墙
-            (80,  5,  38, 18, 28),   # 右上竖墙
-        ]
-        for col, r0, r1, gs, ge in v_barriers:
-            for row in range(r0, r1 + 1):
-                if not (gs <= row <= ge):
-                    self.grid[row, col] = self.OBSTACLE
-
-    def _add_center_blocks(self):
-        """
-        在网格各区域中心撒置 5×5 方块障碍（中心撒点）。
-        各中心坐标均经过验证不覆盖起终点与墙段缺口。
-        """
-        centers = [
-            (12, 70), (12, 85),
-            (30, 10), (30, 82),
-            (50, 58), (50, 82),
-            (65, 10), (65, 45),
-            (85, 15), (85, 55), (85, 82),
-        ]
-        for (r, c) in centers:
+    def _forbidden_mask(self) -> set[tuple[int, int]]:
+        """起、终点及周围若干格不置障，避免孤立。"""
+        out: set[tuple[int, int]] = set()
+        for cr, cc in (self.start, self.goal):
             for dr in range(-2, 3):
                 for dc in range(-2, 3):
-                    nr, nc = r + dr, c + dc
-                    if 1 <= nr < self.rows - 1 and 1 <= nc < self.cols - 1:
-                        self.grid[nr, nc] = self.OBSTACLE
+                    r, c = cr + dr, cc + dc
+                    if self.in_bounds(r, c):
+                        out.add((r, c))
+        return out
 
-    # ------------------------------------------------------------------
-    # 查询接口（供算法调用）
-    # ------------------------------------------------------------------
+    def _goal_reachable(self) -> bool:
+        """八邻域下起点能否到达终点（障碍格不可走）。"""
+        from collections import deque
+
+        sr, sc = self.start
+        gr, gc = self.goal
+        if self.is_obstacle(sr, sc) or self.is_obstacle(gr, gc):
+            return False
+        q: deque[tuple[int, int]] = deque([(sr, sc)])
+        vis: set[tuple[int, int]] = {(sr, sc)}
+        while q:
+            r, c = q.popleft()
+            if (r, c) == (gr, gc):
+                return True
+            for nr, nc, _ in self.get_neighbors(r, c):
+                if (nr, nc) not in vis:
+                    vis.add((nr, nc))
+                    q.append((nr, nc))
+        return False
+
+    def _build_obstacles(self):
+        """
+        第一版撒点：边界池 / 中心带池 / 其它内部池，各自按随机权重取整格障碍；
+        总障碍格约 700–980；不通则重试。
+        """
+        fb = self._forbidden_mask()
+        max_trials = 500
+
+        for _ in range(max_trials):
+            self.grid.fill(0)
+            target = int(self._rng.integers(700, 981))
+
+            edge: list[tuple[int, int]] = []
+            center: list[tuple[int, int]] = []
+            other: list[tuple[int, int]] = []
+
+            for r in range(self.rows):
+                for c in range(self.cols):
+                    if (r, c) in fb:
+                        continue
+                    on_border = r == 0 or r == self.rows - 1 or c == 0 or c == self.cols - 1
+                    if on_border:
+                        edge.append((r, c))
+                    elif 25 <= r < 75 and 25 <= c < 75:
+                        center.append((r, c))
+                    else:
+                        other.append((r, c))
+
+            w_e = float(self._rng.uniform(0.30, 0.48))
+            w_c = float(self._rng.uniform(0.26, 0.42))
+            n_e = min(len(edge), max(0, int(target * w_e)))
+            n_c = min(len(center), max(0, int(target * w_c)))
+            n_o = min(len(other), max(0, target - n_e - n_c))
+
+            def take(cells: list[tuple[int, int]], n: int) -> list[tuple[int, int]]:
+                if n <= 0 or not cells:
+                    return []
+                idx = self._rng.choice(len(cells), size=min(n, len(cells)), replace=False)
+                return [cells[int(i)] for i in idx]
+
+            placed: list[tuple[int, int]] = []
+            placed.extend(take(edge, n_e))
+            placed.extend(take(center, n_c))
+            placed.extend(take(other, n_o))
+
+            for r, c in placed:
+                self.grid[r, c] = self.OBSTACLE
+
+            if self._goal_reachable():
+                return
+
+        self.grid.fill(0)
+        inner = [
+            (r, c)
+            for r in range(1, self.rows - 1)
+            for c in range(1, self.cols - 1)
+            if (r, c) not in fb
+        ]
+        if inner:
+            self._rng.shuffle(inner)
+            for r, c in inner[:400]:
+                self.grid[r, c] = self.OBSTACLE
+        if not self._goal_reachable():
+            self.grid.fill(0)
 
     def in_bounds(self, row: int, col: int) -> bool:
         """坐标是否在网格范围内。"""
@@ -123,7 +151,6 @@ class GridEnvironment:
         if allow_diagonal:
             for dr, dc in diagonals:
                 nr, nc = row + dr, col + dc
-                # 同时检查两侧格子，防止穿越墙角
                 if (not self.is_obstacle(nr, nc)
                         and not self.is_obstacle(row + dr, col)
                         and not self.is_obstacle(row, col + dc)):
@@ -275,9 +302,9 @@ class GridEnvironment:
     # ------------------------------------------------------------------
 
     def __repr__(self):
-        n_obs  = int(self.grid.sum())
+        n_obs = int(self.grid.sum())
         n_free = self.rows * self.cols - n_obs
-        ratio  = n_obs / (self.rows * self.cols) * 100
+        ratio = n_obs / (self.rows * self.cols) * 100
         return (f"GridEnvironment(size={self.rows}×{self.cols}, "
                 f"障碍={n_obs} ({ratio:.1f}%), 可通行={n_free}, "
                 f"start={self.start}, goal={self.goal})")
@@ -302,9 +329,15 @@ if __name__ == "__main__":
         action="store_true",
         help="与 --out 同时使用时仍弹出预览窗口",
     )
+    p.add_argument(
+        "--seed",
+        type=int,
+        default=0,
+        help="随机地图种子（默认 0，与实验一致）",
+    )
     args = p.parse_args()
 
-    env = GridEnvironment()
+    env = GridEnvironment(seed=args.seed)
     print(env)
     save = args.out.strip() or None
     if save:

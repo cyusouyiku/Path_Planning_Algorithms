@@ -38,7 +38,7 @@ sprint2/
 
 | 文件 | 作用 |
 |------|------|
-| **env.py** | 定义 `GridEnvironment`：建图、障碍、`get_neighbors`（八连通 + 不切角）、`set_start`/`set_goal`、`edge_cost` / `path_is_valid` / `compute_path_cost`、`render`。 |
+| **env.py** | 定义 `GridEnvironment`：**第一版撒点障碍**（边界池 / 中心带 / 其余内部，整格；`seed` 可复现）、八邻域、`render`、路径校验与代价等。 |
 | **common.py** | `PlanResult` 数据结构；`octile_heuristic`（八连通下的可采纳启发下界）。 |
 | **dijkstra.py** | 在 `GridEnvironment` 上跑 Dijkstra，返回路径、代价、扩展次数等。 |
 | **astar.py** | 同上，A*（f = g + 八距离启发）。 |
@@ -65,9 +65,9 @@ python run_experiments.py 0
 单独预览地图（弹窗）或导出 PNG：
 
 ```bash
-python env.py
-python env.py --out map_environment.png
-python env.py --out map.png --show   # 保存并弹窗
+python env.py                    # 弹窗预览（默认 seed=0）
+python env.py --seed 0 --out map_environment.png
+python env.py --seed 1 --out map.png --show   # 保存并弹窗
 ```
 
 ---

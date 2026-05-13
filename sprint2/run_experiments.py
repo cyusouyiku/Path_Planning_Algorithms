@@ -25,9 +25,9 @@ def _run_classical(seed: int = 0) -> list[dict]:
     env = GridEnvironment(seed=seed)
     rows: list[dict] = []
 
-    def add(name: str, res):
-        pvalid = env.path_is_valid(res.path) if res.success else False
-        pc = env.compute_path_cost(res.path) if res.success else float("inf")
+    def add(name: str, res, e: GridEnvironment):
+        pvalid = e.path_is_valid(res.path) if res.success else False
+        pc = e.compute_path_cost(res.path) if res.success else float("inf")
         rows.append(
             {
                 "algorithm": name,
@@ -43,15 +43,15 @@ def _run_classical(seed: int = 0) -> list[dict]:
 
     e = env
     r = dijk_t(e)
-    add("Dijkstra", r)
+    add("Dijkstra", r, e)
 
     e = GridEnvironment(seed=seed)
     r = astar_t(e)
-    add("A*", r)
+    add("A*", r, e)
 
     e = GridEnvironment(seed=seed)
     r = dstar_t(e)
-    add("D* Lite", r)
+    add("D* Lite", r, e)
 
     # RRT*：多次随机采样，报告最优代价与平均运行时间
     times: list[float] = []
@@ -94,7 +94,7 @@ def _run_ppo(seed: int = 0) -> dict | None:
     except ImportError:
         return None
     t0 = time.perf_counter()
-    stats = train_and_eval(total_timesteps=260_000, seed=seed)
+    stats = train_and_eval(total_timesteps=200_000, seed=seed)
     stats["train_wall_sec"] = time.perf_counter() - t0
     return stats
 
@@ -106,7 +106,7 @@ def main():
 
     out = {
         "seed": seed,
-        "grid": "100x100 默认障碍",
+        "grid": "100x100 撒点障碍（边界/中心带/内部整格，seed可复现）",
         "classical": classical,
         "ppo": ppo_stats,
     }
