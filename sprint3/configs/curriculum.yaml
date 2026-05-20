@@ -1,0 +1,49 @@
+# PPO 课程学习阶段：由小图无障碍逐步过渡到与 benchmark 同分布的 500×500
+stages:
+  - name: free_64
+    rows: 64
+    cols: 64
+    obstacles: false
+    timesteps: 80000
+    max_episode_steps: 200
+    window: 21
+
+  - name: sparse_128
+    rows: 128
+    cols: 128
+    layout: ship_pipe
+    obstacles: true
+    ship_pipe:
+      num_blocks: [3, 5]
+      block_size_frac: [0.08, 0.18]
+      corridor_half_width: 6
+      hull_depth: 2
+    timesteps: 120000
+    max_episode_steps: 400
+    window: 21
+
+  - name: medium_256
+    rows: 256
+    cols: 256
+    layout: ship_pipe
+    obstacles: true
+    ship_pipe:
+      num_blocks: [5, 9]
+      block_size_frac: [0.07, 0.16]
+      corridor_half_width: 10
+      hull_depth: 2
+    timesteps: 150000
+    max_episode_steps: 800
+    window: 21
+
+  - name: target_500
+    preset: ship_pipe_500
+    timesteps: 200000
+    max_episode_steps: 2500
+    window: 21
+
+  - name: target_1000
+    preset: ship_pipe_1000
+    timesteps: 250000
+    max_episode_steps: 5000
+    window: 21

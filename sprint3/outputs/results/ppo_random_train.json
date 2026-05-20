@@ -1,0 +1,219 @@
+{
+  "model_path": "/Users/zhangzongyu/Desktop/RL/sprint3/outputs/models/ppo_random.zip",
+  "curriculum": "/Users/zhangzongyu/Desktop/RL/sprint3/configs/ppo_random_curriculum.yaml",
+  "mode": "random_map_pool",
+  "total_wall_time_sec": 2424.6543487080016,
+  "total_timesteps": 500000,
+  "stages": [
+    {
+      "stage": "random_96",
+      "grid": "96×96",
+      "map_pool_size": 20,
+      "holdout_maps": 10,
+      "mean_pool_obstacle_ratio": 0.24638129340277776,
+      "timesteps": 80000,
+      "max_episode_steps": 280,
+      "wall_time_sec": 52.3486625000005,
+      "holdout_eval": {
+        "maps": 10,
+        "episodes_per_map": 2,
+        "total_episodes": 20,
+        "success_rate": 0.5,
+        "mean_path_cost_on_success": 142.9366665816369,
+        "mean_steps_on_success": 123.8,
+        "successes": 10
+      }
+    },
+    {
+      "stage": "random_192",
+      "grid": "192×192",
+      "map_pool_size": 18,
+      "holdout_maps": 8,
+      "mean_pool_obstacle_ratio": 0.20265480324074076,
+      "timesteps": 100000,
+      "max_episode_steps": 520,
+      "wall_time_sec": 66.86431741599881,
+      "holdout_eval": {
+        "maps": 8,
+        "episodes_per_map": 2,
+        "total_episodes": 16,
+        "success_rate": 0.0,
+        "mean_path_cost_on_success": null,
+        "mean_steps_on_success": null,
+        "successes": 0
+      }
+    },
+    {
+      "stage": "random_384",
+      "grid": "384×384",
+      "map_pool_size": 14,
+      "holdout_maps": 6,
+      "mean_pool_obstacle_ratio": 0.22000315832713294,
+      "timesteps": 120000,
+      "max_episode_steps": 1100,
+      "wall_time_sec": 86.80516637499932,
+      "holdout_eval": {
+        "maps": 6,
+        "episodes_per_map": 2,
+        "total_episodes": 12,
+        "success_rate": 0.0,
+        "mean_path_cost_on_success": null,
+        "mean_steps_on_success": null,
+        "successes": 0
+      }
+    },
+    {
+      "stage": "random_500",
+      "grid": "500×500",
+      "map_pool_size": 12,
+      "holdout_maps": 6,
+      "mean_pool_obstacle_ratio": 0.25782066666666664,
+      "timesteps": 200000,
+      "max_episode_steps": 2800,
+      "wall_time_sec": 155.16907891699884,
+      "holdout_eval": {
+        "maps": 6,
+        "episodes_per_map": 2,
+        "total_episodes": 12,
+        "success_rate": 0.0,
+        "mean_path_cost_on_success": null,
+        "mean_steps_on_success": null,
+        "successes": 0
+      }
+    }
+  ],
+  "eval_checkpoints": [
+    {
+      "stage": "random_96",
+      "checkpoint_timesteps": 40000,
+      "maps": 10,
+      "episodes_per_map": 2,
+      "total_episodes": 20,
+      "success_rate": 0.6,
+      "mean_path_cost_on_success": 155.77649104842422,
+      "mean_steps_on_success": 143.83333333333334,
+      "successes": 12
+    },
+    {
+      "stage": "random_96",
+      "checkpoint_timesteps": 80000,
+      "maps": 10,
+      "episodes_per_map": 2,
+      "total_episodes": 20,
+      "success_rate": 0.5,
+      "mean_path_cost_on_success": 142.9366665816369,
+      "mean_steps_on_success": 123.8,
+      "successes": 10
+    },
+    {
+      "stage": "random_96",
+      "checkpoint": "final",
+      "maps": 10,
+      "episodes_per_map": 2,
+      "total_episodes": 20,
+      "success_rate": 0.5,
+      "mean_path_cost_on_success": 142.9366665816369,
+      "mean_steps_on_success": 123.8,
+      "successes": 10
+    },
+    {
+      "stage": "random_192",
+      "checkpoint_timesteps": 50000,
+      "maps": 8,
+      "episodes_per_map": 2,
+      "total_episodes": 16,
+      "success_rate": 0.125,
+      "mean_path_cost_on_success": 285.0193359837567,
+      "mean_steps_on_success": 232.0,
+      "successes": 2
+    },
+    {
+      "stage": "random_192",
+      "checkpoint_timesteps": 100000,
+      "maps": 8,
+      "episodes_per_map": 2,
+      "total_episodes": 16,
+      "success_rate": 0.0,
+      "mean_path_cost_on_success": null,
+      "mean_steps_on_success": null,
+      "successes": 0
+    },
+    {
+      "stage": "random_192",
+      "checkpoint": "final",
+      "maps": 8,
+      "episodes_per_map": 2,
+      "total_episodes": 16,
+      "success_rate": 0.0,
+      "mean_path_cost_on_success": null,
+      "mean_steps_on_success": null,
+      "successes": 0
+    },
+    {
+      "stage": "random_384",
+      "checkpoint_timesteps": 60000,
+      "maps": 6,
+      "episodes_per_map": 2,
+      "total_episodes": 12,
+      "success_rate": 0.0,
+      "mean_path_cost_on_success": null,
+      "mean_steps_on_success": null,
+      "successes": 0
+    },
+    {
+      "stage": "random_384",
+      "checkpoint_timesteps": 120000,
+      "maps": 6,
+      "episodes_per_map": 2,
+      "total_episodes": 12,
+      "success_rate": 0.0,
+      "mean_path_cost_on_success": null,
+      "mean_steps_on_success": null,
+      "successes": 0
+    },
+    {
+      "stage": "random_384",
+      "checkpoint": "final",
+      "maps": 6,
+      "episodes_per_map": 2,
+      "total_episodes": 12,
+      "success_rate": 0.0,
+      "mean_path_cost_on_success": null,
+      "mean_steps_on_success": null,
+      "successes": 0
+    },
+    {
+      "stage": "random_500",
+      "checkpoint_timesteps": 100000,
+      "maps": 6,
+      "episodes_per_map": 2,
+      "total_episodes": 12,
+      "success_rate": 0.0,
+      "mean_path_cost_on_success": null,
+      "mean_steps_on_success": null,
+      "successes": 0
+    },
+    {
+      "stage": "random_500",
+      "checkpoint_timesteps": 200000,
+      "maps": 6,
+      "episodes_per_map": 2,
+      "total_episodes": 12,
+      "success_rate": 0.0,
+      "mean_path_cost_on_success": null,
+      "mean_steps_on_success": null,
+      "successes": 0
+    },
+    {
+      "stage": "random_500",
+      "checkpoint": "final",
+      "maps": 6,
+      "episodes_per_map": 2,
+      "total_episodes": 12,
+      "success_rate": 0.0,
+      "mean_path_cost_on_success": null,
+      "mean_steps_on_success": null,
+      "successes": 0
+    }
+  ]
+}

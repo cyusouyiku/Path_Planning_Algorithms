@@ -1,0 +1,87 @@
+
+[benchmark] 环境 ship_pipe_100
+  → Dijkstra …
+  → A* …
+  → D* Lite …
+  → RRT* …
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.12/site-packages/tensorboard/compat/__init__.py", line 42, in tf
+    from tensorboard.compat import notf  # noqa: F401
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'notf' from 'tensorboard.compat' (/opt/anaconda3/lib/python3.12/site-packages/tensorboard/compat/__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.12/site-packages/tensorboard/compat/__init__.py", line 42, in tf
+    from tensorboard.compat import notf  # noqa: F401
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'notf' from 'tensorboard.compat' (/opt/anaconda3/lib/python3.12/site-packages/tensorboard/compat/__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.12/site-packages/tensorboard/compat/__init__.py", line 42, in tf
+    from tensorboard.compat import notf  # noqa: F401
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'notf' from 'tensorboard.compat' (/opt/anaconda3/lib/python3.12/site-packages/tensorboard/compat/__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.12/site-packages/tensorboard/compat/__init__.py", line 42, in tf
+    from tensorboard.compat import notf  # noqa: F401
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'notf' from 'tensorboard.compat' (/opt/anaconda3/lib/python3.12/site-packages/tensorboard/compat/__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.12/site-packages/tensorboard/compat/__init__.py", line 42, in tf
+    from tensorboard.compat import notf  # noqa: F401
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'notf' from 'tensorboard.compat' (/opt/anaconda3/lib/python3.12/site-packages/tensorboard/compat/__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
+/opt/anaconda3/lib/python3.12/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+
+[benchmark] 环境 ship_pipe_500
+  → Dijkstra …
+  → A* …
+  → D* Lite …
+  → RRT* …
+
+[benchmark] 环境 ship_pipe_1000
+  → Dijkstra …
+  → A* …
+  → D* Lite …
+  → RRT* …
+已写入 /Users/zhangzongyu/Desktop/RL/sprint3/outputs/results/benchmark_results.json
+
+=== ship_pipe_100 ===
+  Dijkstra: success=True cost=145.7817459305202 time=0.09777912500067032
+  A*: success=True cost=145.78174593052006 time=0.01981287499984319
+  D* Lite: success=True cost=145.7817459305202 time=0.3816915830011567
+  RRT*: success=True cost=157.7228714274744 time=1.161531666800147
+  PPO: success=False cost=None time=0.12083454099956725
+
+=== ship_pipe_500 ===
+  Dijkstra: success=True cost=712.0041840821098 time=2.5470038749990636
+  A*: success=True cost=712.0041840821092 time=0.7333670830012124
+  D* Lite: success=True cost=712.0041840821098 time=9.469913082999483
+  RRT*: success=True cost=799.2072862499407 time=87.2803714999997
+  PPO: success=False cost=None time=0.9919845840013295
+
+=== ship_pipe_1000 ===
+  Dijkstra: skipped
+  A*: success=True cost=1422.5108934811599 time=3.0493583330007823
+  D* Lite: success=True cost=1422.5108934811612 time=32.85894150000058
+  RRT*: success=True cost=2134.7202717721543 time=118.3552389380011
+  PPO: success=False cost=None time=1.9925224170001457

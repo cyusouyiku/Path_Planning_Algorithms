@@ -1,0 +1,7 @@
+# 仅 500×500 目标阶段（需已有基础模型或从头训练）
+stages:
+  - name: target_500
+    preset: ship_pipe_500
+    timesteps: 200000
+    max_episode_steps: 2500
+    window: 21

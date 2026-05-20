@@ -1,0 +1,57 @@
+# 三种对比环境：船舶管道模拟（大矩形块 + 贴墙障碍）
+# 规模 100 / 500 / 1000；起终点连线不再保留空旷走廊，且要求最短路径明显绕障
+
+presets:
+  ship_pipe_100:
+    rows: 100
+    cols: 100
+    layout: ship_pipe
+    seed: 42
+    safe_radius: 3
+    ship_pipe:
+      num_blocks: [5, 9]
+      block_size_frac: [0.08, 0.22]
+      corridor_half_width: 0
+      min_path_stretch: 1.15
+      hull_depth: 2
+      hull_fill_prob: 0.80
+      perimeter_shell: 1
+      wall_thickness_prob: 0.55
+      max_build_trials: 200
+    description: "100×100 船舶管道：舱室块可阻断主通道，需绕障"
+
+  ship_pipe_500:
+    rows: 500
+    cols: 500
+    layout: ship_pipe
+    seed: 43
+    safe_radius: 4
+    ship_pipe:
+      num_blocks: [12, 20]
+      block_size_frac: [0.06, 0.18]
+      corridor_half_width: 0
+      min_path_stretch: 1.12
+      hull_depth: 3
+      hull_fill_prob: 0.82
+      perimeter_shell: 2
+      wall_thickness_prob: 0.58
+      max_build_trials: 240
+    description: "500×500 船舶管道：中等尺度，主通道有障碍"
+
+  ship_pipe_1000:
+    rows: 1000
+    cols: 1000
+    layout: ship_pipe
+    seed: 44
+    safe_radius: 5
+    ship_pipe:
+      num_blocks: [18, 30]
+      block_size_frac: [0.05, 0.15]
+      corridor_half_width: 0
+      min_path_stretch: 1.10
+      hull_depth: 4
+      hull_fill_prob: 0.84
+      perimeter_shell: 2
+      wall_thickness_prob: 0.60
+      max_build_trials: 280
+    description: "1000×1000 船舶管道：大规模，需绕开舱室块"

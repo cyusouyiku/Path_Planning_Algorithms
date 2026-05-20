@@ -1,0 +1,7 @@
+# 仅 1000×1000 目标阶段（建议先完成 target_500 或加载 ppo_curriculum.zip）
+stages:
+  - name: target_1000
+    preset: ship_pipe_1000
+    timesteps: 250000
+    max_episode_steps: 5000
+    window: 21

@@ -1,0 +1,35 @@
+{
+  "model_path": "/Users/zhangzongyu/Desktop/RL/sprint3/outputs/models/ppo_curriculum.zip",
+  "total_wall_time_sec": 99.27031949999946,
+  "stages": [
+    {
+      "stage": "free_64",
+      "grid": "64×64",
+      "obstacle_ratio": 0.0,
+      "timesteps": 20000,
+      "wall_time_sec": 12.014867500000037
+    },
+    {
+      "stage": "sparse_128",
+      "grid": "128×128",
+      "obstacle_ratio": 0.1214599609375,
+      "timesteps": 30000,
+      "wall_time_sec": 16.778325040999334
+    },
+    {
+      "stage": "medium_256",
+      "grid": "256×256",
+      "obstacle_ratio": 0.129974365234375,
+      "timesteps": 40000,
+      "wall_time_sec": 23.69548924999981
+    },
+    {
+      "stage": "target_500",
+      "grid": "500×500",
+      "obstacle_ratio": 0.28,
+      "timesteps": 60000,
+      "wall_time_sec": 37.222303458998795
+    }
+  ],
+  "total_timesteps": 150000
+}

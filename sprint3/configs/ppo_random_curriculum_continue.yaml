@@ -1,0 +1,90 @@
+# 在 ppo_random.zip 基础上继续训练：巩固小图 + 对齐 100 preset 分布 + 加长 500
+holdout_base_seed: 9100000
+holdout_seed_stride: 49999
+
+stages:
+  - name: random_96_ft
+    rows: 96
+    cols: 96
+    safe_radius: 3
+    map_pool_size: 24
+    pool_base_seed: 51000
+    holdout_maps: 10
+    ship_pipe:
+      num_blocks: [4, 8]
+      block_size_frac: [0.08, 0.20]
+      corridor_half_width: 0
+      min_path_stretch: 1.12
+      hull_depth: 2
+      hull_fill_prob: 0.78
+      max_build_trials: 160
+    timesteps: 100000
+    max_episode_steps: 280
+    eval_every: 50000
+    eval_episodes_per_map: 2
+    window: 21
+
+  - name: random_100_preset_like
+    rows: 100
+    cols: 100
+    safe_radius: 3
+    map_pool_size: 24
+    pool_base_seed: 61000
+    holdout_maps: 10
+    ship_pipe:
+      num_blocks: [5, 9]
+      block_size_frac: [0.08, 0.22]
+      corridor_half_width: 0
+      min_path_stretch: 1.15
+      hull_depth: 2
+      hull_fill_prob: 0.80
+      max_build_trials: 200
+    timesteps: 120000
+    max_episode_steps: 320
+    eval_every: 60000
+    eval_episodes_per_map: 2
+    window: 21
+
+  - name: random_192_ft
+    rows: 192
+    cols: 192
+    safe_radius: 3
+    map_pool_size: 16
+    pool_base_seed: 71000
+    holdout_maps: 8
+    ship_pipe:
+      num_blocks: [6, 11]
+      block_size_frac: [0.07, 0.18]
+      corridor_half_width: 0
+      min_path_stretch: 1.12
+      hull_depth: 2
+      hull_fill_prob: 0.80
+      max_build_trials: 180
+    timesteps: 150000
+    max_episode_steps: 520
+    eval_every: 75000
+    eval_episodes_per_map: 2
+    window: 21
+
+  - name: random_500_ft
+    rows: 500
+    cols: 500
+    safe_radius: 4
+    map_pool_size: 10
+    pool_base_seed: 81000
+    holdout_maps: 6
+    ship_pipe:
+      num_blocks: [12, 20]
+      block_size_frac: [0.06, 0.18]
+      corridor_half_width: 0
+      min_path_stretch: 1.12
+      hull_depth: 3
+      hull_fill_prob: 0.82
+      perimeter_shell: 2
+      wall_thickness_prob: 0.58
+      max_build_trials: 220
+    timesteps: 250000
+    max_episode_steps: 2800
+    eval_every: 125000
+    eval_episodes_per_map: 2
+    window: 21
