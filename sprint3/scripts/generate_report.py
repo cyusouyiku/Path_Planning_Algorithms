@@ -70,6 +70,7 @@ def main() -> None:
         sys.exit(1)
 
     data = json.loads(RESULTS.read_text(encoding="utf-8"))
+    data_note = data.get("data_note", "")
     done = list(data.get("environments", {}).keys())
     pending = [p for p in ALL_PRESETS if p not in done]
     ppo_log = _load_ppo_train_log()
@@ -79,6 +80,10 @@ def main() -> None:
     parts: list[str] = [
         "# Sprint 3：大规模栅格路径规划对比实验报告",
         "",
+    ]
+    if data_note:
+        parts += [f"> **数据说明**：{data_note}", ""]
+    parts += [
         "## 1. 实验目的",
         "",
         "在 Sprint 2 五种算法（**Dijkstra、A\\*、RRT\\*、D\\* Lite、PPO**）基础上，",
@@ -199,15 +204,20 @@ def main() -> None:
         if ppo:
             ev = ppo.get("eval", {})
             sr = ev.get("success_rate", 0) * 100
+            sim = "（参考模拟）" if ppo.get("extra", {}).get("simulated") else ""
             if ppo.get("success"):
+                opt = _fmt(best_cost, 3)
+                pc = ppo.get("path_cost")
+                pct = ""
+                if pc and best_cost:
+                    pct = f"，约高 **{(pc/best_cost-1)*100:.1f}%**"
                 parts.append(
-                    f"- **PPO**：单次代价 {_fmt(ppo.get('path_cost'), 3)}；"
-                    f"eval **{sr:.0f}%**；成功时均步 {_fmt(ev.get('mean_steps_on_success'), 1)}。"
+                    f"- **PPO**{sim}：单次代价 {_fmt(pc, 3)}{pct}；"
+                    f"eval **{sr:.0f}%**。"
                 )
             else:
                 parts.append(
-                    f"- **PPO**：未到达终点（eval **{sr:.0f}%**）。"
-                    f" 步数上限内路径长 {_fmt(ppo.get('path_length'), 0)}。"
+                    f"- **PPO**{sim}：单次未达终点；eval **{sr:.0f}%**。"
                 )
         parts.append("")
 

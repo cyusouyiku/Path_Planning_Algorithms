@@ -12,11 +12,13 @@ import yaml
 
 from pathplan.common import octile_heuristic
 from pathplan.env.grid import EnvBuildConfig, GridEnvironment
-from pathplan.env.presets import _ship_params
+from pathplan.env.presets import _ship_params, build_preset
 from pathplan.rl.random_env import PooledShipPipeGymEnv
 
 
 def _grid_from_stage(stage: dict[str, Any], seed: int) -> GridEnvironment:
+    if "preset" in stage:
+        return build_preset(stage["preset"])
     side = int(stage["rows"])
     cfg = EnvBuildConfig(
         rows=side,
@@ -140,33 +142,46 @@ def train_random_curriculum(
             name = stage.get("name", f"stage_{i}")
             window = int(stage.get("window", 21))
             timesteps = int(stage["timesteps"])
-            pool_size = int(stage.get("map_pool_size", 20))
-            train_base = int(stage.get("pool_base_seed", 1000 + i * 50000))
+            is_preset = "preset" in stage
+
+            if is_preset:
+                train_pool = [build_preset(stage["preset"])]
+                pool_size = 1
+                side = train_pool[0].rows
+                holdout = list(train_pool)
+                holdout_size = 1
+                print(
+                    f"\n[PPO-Random] 固定 preset 阶段: {stage['preset']} "
+                    f"({side}×{side})",
+                    flush=True,
+                )
+            else:
+                pool_size = int(stage.get("map_pool_size", 20))
+                train_base = int(stage.get("pool_base_seed", 1000 + i * 50000))
+                print(f"\n[PPO-Random] 生成训练地图池 {pool_size} 张 …", flush=True)
+                t_pool = time.perf_counter()
+                train_pool = build_map_pool(
+                    stage, pool_size=pool_size, base_seed=train_base
+                )
+                print(
+                    f"  完成，耗时 {time.perf_counter() - t_pool:.1f}s | "
+                    f"示例障碍占比 {train_pool[0].obstacle_ratio()*100:.1f}%",
+                    flush=True,
+                )
+                holdout_size = int(stage.get("holdout_maps", 8))
+                holdout = build_map_pool(
+                    stage,
+                    pool_size=holdout_size,
+                    base_seed=holdout_base + i * holdout_stride,
+                )
+                side = int(stage["rows"])
+
+            ref_grid = train_pool[0]
             max_steps = int(
                 stage.get(
                     "max_episode_steps",
-                    _max_steps_for_grid(
-                        _grid_from_stage(stage, train_base), stage
-                    ),
+                    _max_steps_for_grid(ref_grid, stage),
                 )
-            )
-
-            print(f"\n[PPO-Random] 生成训练地图池 {pool_size} 张 …", flush=True)
-            t_pool = time.perf_counter()
-            train_pool = build_map_pool(
-                stage, pool_size=pool_size, base_seed=train_base
-            )
-            print(
-                f"  完成，耗时 {time.perf_counter() - t_pool:.1f}s | "
-                f"示例障碍占比 {train_pool[0].obstacle_ratio()*100:.1f}%",
-                flush=True,
-            )
-
-            holdout_size = int(stage.get("holdout_maps", 8))
-            holdout = build_map_pool(
-                stage,
-                pool_size=holdout_size,
-                base_seed=holdout_base + i * holdout_stride,
             )
 
             def _make(
@@ -183,7 +198,6 @@ def train_random_curriculum(
                 vec.close()
             vec = make_vec_env(_make, n_envs=1, seed=stage.get("seed", i))
 
-            side = int(stage["rows"])
             print(
                 f"\n{'=' * 60}\n"
                 f"[PPO-Random] 阶段 {i + 1}/{len(stages)} | {name}\n"
@@ -281,6 +295,7 @@ def train_random_curriculum(
             stage_logs.append(
                 {
                     "stage": name,
+                    "preset": stage.get("preset"),
                     "grid": f"{side}×{side}",
                     "map_pool_size": pool_size,
                     "holdout_maps": holdout_size,

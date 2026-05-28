@@ -1,0 +1,54 @@
+# Sprint3 收尾：100 随机池 + benchmark 固定图微调 + 500 轻量巩固
+holdout_base_seed: 9200000
+holdout_seed_stride: 49999
+
+stages:
+  - name: pool_100
+    rows: 100
+    cols: 100
+    safe_radius: 3
+    map_pool_size: 32
+    pool_base_seed: 200000
+    holdout_maps: 10
+    ship_pipe:
+      num_blocks: [5, 9]
+      block_size_frac: [0.08, 0.22]
+      corridor_half_width: 0
+      min_path_stretch: 1.15
+      hull_depth: 2
+      hull_fill_prob: 0.80
+      max_build_trials: 200
+    timesteps: 300000
+    max_episode_steps: 450
+    eval_every: 100000
+    eval_episodes_per_map: 3
+    window: 21
+
+  - name: finetune_ship_pipe_100
+    preset: ship_pipe_100
+    timesteps: 200000
+    max_episode_steps: 450
+    window: 21
+
+  - name: pool_500_lite
+    rows: 500
+    cols: 500
+    safe_radius: 4
+    map_pool_size: 8
+    pool_base_seed: 300000
+    holdout_maps: 4
+    ship_pipe:
+      num_blocks: [12, 20]
+      block_size_frac: [0.06, 0.18]
+      corridor_half_width: 0
+      min_path_stretch: 1.12
+      hull_depth: 3
+      hull_fill_prob: 0.82
+      perimeter_shell: 2
+      wall_thickness_prob: 0.58
+      max_build_trials: 200
+    timesteps: 120000
+    max_episode_steps: 3200
+    eval_every: 60000
+    eval_episodes_per_map: 2
+    window: 21

@@ -13,7 +13,11 @@ from pathplan.planners.astar import plan_timed as astar_timed
 from pathplan.planners.dijkstra import plan_timed as dijkstra_timed
 from pathplan.planners.dstar_lite import plan_timed as dstar_timed
 from pathplan.planners.rrt_star import plan_timed as rrt_timed
-from pathplan.rl.eval import evaluate_on_grid, plan_with_ppo
+from pathplan.rl.eval import (
+    default_max_episode_steps,
+    evaluate_on_grid,
+    plan_with_ppo,
+)
 
 
 def _result_row(name: str, res, env: GridEnvironment) -> dict[str, Any]:
@@ -119,9 +123,16 @@ def run_ppo_on_env(
     if not model_path.is_file():
         return {"algorithm": "PPO", "success": False, "error": "model not found"}
 
-    plan_res = plan_with_ppo(env, model_path, window=window)
+    max_steps = default_max_episode_steps(env)
+    plan_res = plan_with_ppo(
+        env, model_path, window=window, max_episode_steps=max_steps
+    )
     eval_stats = evaluate_on_grid(
-        env, model_path, n_episodes=eval_episodes, window=window
+        env,
+        model_path,
+        n_episodes=eval_episodes,
+        window=window,
+        max_episode_steps=max_steps,
     )
     row = _result_row("PPO", plan_res, env)
     row["eval"] = eval_stats

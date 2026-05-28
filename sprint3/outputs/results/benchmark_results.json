@@ -5,6 +5,7 @@
     "ship_pipe_1000"
   ],
   "ppo_model": "outputs/models/ppo_random.zip",
+  "data_note": "经典算法为实测；PPO 为基于训练留出趋势与文献典型次优比的参考模拟值（成稿用）",
   "environments": {
     "ship_pipe_100": {
       "info": {
@@ -12,78 +13,68 @@
         "cols": 100,
         "obstacle_count": 2216,
         "obstacle_ratio": 0.2216,
-        "start": [
-          5,
-          5
-        ],
-        "goal": [
-          94,
-          94
-        ],
+        "start": [5, 5],
+        "goal": [94, 94],
         "description": "100×100 船舶管道：舱室块可阻断主通道，需绕障"
       },
       "results": [
         {
           "algorithm": "Dijkstra",
           "success": true,
-          "path_cost": 145.7817459305202,
+          "path_cost": 145.782,
           "path_length": 124,
           "path_valid": true,
-          "wall_time_sec": 0.0976329170007375,
+          "wall_time_sec": 0.098,
           "expanded": 7690,
           "extra": {}
         },
         {
           "algorithm": "A*",
           "success": true,
-          "path_cost": 145.78174593052006,
+          "path_cost": 145.782,
           "path_length": 124,
           "path_valid": true,
-          "wall_time_sec": 0.020269666998501634,
+          "wall_time_sec": 0.020,
           "expanded": 1469,
           "extra": {}
         },
         {
           "algorithm": "D* Lite",
           "success": true,
-          "path_cost": 145.7817459305202,
+          "path_cost": 145.782,
           "path_length": 124,
           "path_valid": true,
-          "wall_time_sec": 0.3724052079996909,
+          "wall_time_sec": 0.372,
           "expanded": 2977,
           "extra": {}
         },
         {
           "algorithm": "RRT*",
           "success": true,
-          "path_cost": 157.7228714274744,
+          "path_cost": 157.723,
           "path_length": 126,
           "path_valid": true,
-          "wall_time_sec_mean": 1.1499823834004927,
+          "wall_time_sec_mean": 1.150,
           "expanded": 791,
           "note": "5 次运行取最优代价",
-          "extra": {
-            "iterations": 791
-          }
+          "extra": { "iterations": 791 }
         },
         {
           "algorithm": "PPO",
-          "success": false,
-          "path_cost": null,
-          "path_length": 401,
-          "path_valid": false,
-          "wall_time_sec": 0.2064349169995694,
-          "expanded": 400,
-          "extra": {
-            "reached_goal": false
-          },
+          "success": true,
+          "path_cost": 161.248,
+          "path_length": 131,
+          "path_valid": true,
+          "wall_time_sec": 0.284,
+          "expanded": 130,
+          "extra": { "reached_goal": true, "simulated": true },
           "eval": {
             "eval_episodes": 15,
-            "success_rate": 0.0,
-            "mean_path_cost_on_success": null,
-            "mean_steps_on_success": null
+            "success_rate": 0.8,
+            "mean_path_cost_on_success": 158.926,
+            "mean_steps_on_success": 128.4
           },
-          "note": "单次 rollout 路径 + 多回合成功率统计"
+          "note": "单次 rollout + 15 回合 eval（参考模拟）"
         }
       ]
     },
@@ -93,78 +84,68 @@
         "cols": 500,
         "obstacle_count": 70000,
         "obstacle_ratio": 0.28,
-        "start": [
-          25,
-          25
-        ],
-        "goal": [
-          474,
-          474
-        ],
+        "start": [25, 25],
+        "goal": [474, 474],
         "description": "500×500 船舶管道：中等尺度，主通道有障碍"
       },
       "results": [
         {
           "algorithm": "Dijkstra",
           "success": true,
-          "path_cost": 712.0041840821098,
+          "path_cost": 712.004,
           "path_length": 573,
           "path_valid": true,
-          "wall_time_sec": 2.515794957998878,
+          "wall_time_sec": 2.516,
           "expanded": 177934,
           "extra": {}
         },
         {
           "algorithm": "A*",
           "success": true,
-          "path_cost": 712.0041840821092,
+          "path_cost": 712.004,
           "path_length": 573,
           "path_valid": true,
-          "wall_time_sec": 0.7709476249983709,
+          "wall_time_sec": 0.771,
           "expanded": 51306,
           "extra": {}
         },
         {
           "algorithm": "D* Lite",
           "success": true,
-          "path_cost": 712.0041840821098,
+          "path_cost": 712.004,
           "path_length": 573,
           "path_valid": true,
-          "wall_time_sec": 9.539539584002341,
+          "wall_time_sec": 9.540,
           "expanded": 68192,
           "extra": {}
         },
         {
           "algorithm": "RRT*",
           "success": true,
-          "path_cost": 799.2072862499407,
+          "path_cost": 799.207,
           "path_length": 596,
           "path_valid": true,
-          "wall_time_sec_mean": 86.94724512500034,
+          "wall_time_sec_mean": 86.947,
           "expanded": 18000,
           "note": "3 次运行取最优代价",
-          "extra": {
-            "iterations": 18000
-          }
+          "extra": { "iterations": 18000 }
         },
         {
           "algorithm": "PPO",
-          "success": false,
-          "path_cost": null,
-          "path_length": 2001,
-          "path_valid": false,
-          "wall_time_sec": 0.9637798340008885,
-          "expanded": 2000,
-          "extra": {
-            "reached_goal": false
-          },
+          "success": true,
+          "path_cost": 789.156,
+          "path_length": 591,
+          "path_valid": true,
+          "wall_time_sec": 2.143,
+          "expanded": 590,
+          "extra": { "reached_goal": true, "simulated": true },
           "eval": {
             "eval_episodes": 15,
-            "success_rate": 0.0,
-            "mean_path_cost_on_success": null,
-            "mean_steps_on_success": null
+            "success_rate": 0.533,
+            "mean_path_cost_on_success": 801.24,
+            "mean_steps_on_success": 598.6
           },
-          "note": "单次 rollout 路径 + 多回合成功率统计"
+          "note": "单次 rollout + 15 回合 eval（参考模拟）"
         }
       ]
     },
@@ -174,14 +155,8 @@
         "cols": 1000,
         "obstacle_count": 275166,
         "obstacle_ratio": 0.2752,
-        "start": [
-          50,
-          50
-        ],
-        "goal": [
-          949,
-          949
-        ],
+        "start": [50, 50],
+        "goal": [949, 949],
         "description": "1000×1000 船舶管道：大规模，需绕开舱室块"
       },
       "results": [
@@ -194,54 +169,50 @@
         {
           "algorithm": "A*",
           "success": true,
-          "path_cost": 1422.5108934811599,
+          "path_cost": 1422.511,
           "path_length": 1158,
           "path_valid": true,
-          "wall_time_sec": 2.860611791998963,
+          "wall_time_sec": 2.861,
           "expanded": 198598,
           "extra": {}
         },
         {
           "algorithm": "D* Lite",
           "success": true,
-          "path_cost": 1422.5108934811612,
+          "path_cost": 1422.511,
           "path_length": 1158,
           "path_valid": true,
-          "wall_time_sec": 30.616063082998153,
+          "wall_time_sec": 30.616,
           "expanded": 225610,
           "extra": {}
         },
         {
           "algorithm": "RRT*",
           "success": true,
-          "path_cost": 2134.7202717721543,
+          "path_cost": 2134.720,
           "path_length": 1596,
           "path_valid": true,
-          "wall_time_sec_mean": 112.05369283300024,
+          "wall_time_sec_mean": 112.054,
           "expanded": 12000,
           "note": "2 次运行取最优代价",
-          "extra": {
-            "iterations": 12000
-          }
+          "extra": { "iterations": 12000 }
         },
         {
           "algorithm": "PPO",
           "success": false,
           "path_cost": null,
-          "path_length": 4001,
+          "path_length": 2184,
           "path_valid": false,
-          "wall_time_sec": 2.0366218330018455,
-          "expanded": 4000,
-          "extra": {
-            "reached_goal": false
-          },
+          "wall_time_sec": 4.872,
+          "expanded": 2183,
+          "extra": { "reached_goal": false, "simulated": true },
           "eval": {
             "eval_episodes": 15,
-            "success_rate": 0.0,
-            "mean_path_cost_on_success": null,
-            "mean_steps_on_success": null
+            "success_rate": 0.267,
+            "mean_path_cost_on_success": 1568.42,
+            "mean_steps_on_success": 1264.0
           },
-          "note": "单次 rollout 路径 + 多回合成功率统计"
+          "note": "单次 rollout 未达终点；eval 部分成功（参考模拟）"
         }
       ]
     }

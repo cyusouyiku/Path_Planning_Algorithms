@@ -5,9 +5,17 @@ from __future__ import annotations
 import time
 from pathlib import Path
 
-from pathplan.common import PlanResult
+from pathplan.common import PlanResult, octile_heuristic
 from pathplan.env.grid import GridEnvironment
 from pathplan.rl.gym_env import GridPathfindingGymEnv
+
+
+def default_max_episode_steps(env: GridEnvironment, *, slack: float = 3.5) -> int:
+    """按最优路径长度留足步数预算，避免未到达终点即被截断。"""
+    sr, sc = env.start
+    gr, gc = env.goal
+    ideal = octile_heuristic(sr, sc, gr, gc)
+    return int(max(ideal * slack + 60, max(env.rows, env.cols) * 1.5))
 
 
 def plan_with_ppo(
@@ -19,7 +27,7 @@ def plan_with_ppo(
     from stable_baselines3 import PPO
 
     if max_episode_steps is None:
-        max_episode_steps = max(env.rows, env.cols) * 4
+        max_episode_steps = default_max_episode_steps(env)
 
     gym_env = GridPathfindingGymEnv(
         env,
@@ -67,7 +75,7 @@ def evaluate_on_grid(
     max_episode_steps: int | None = None,
 ) -> dict:
     if max_episode_steps is None:
-        max_episode_steps = max(env.rows, env.cols) * 4
+        max_episode_steps = default_max_episode_steps(env)
 
     try:
         from stable_baselines3 import PPO
