@@ -1,0 +1,228 @@
+{
+  "experiment": "Sprint4 PPO→A* Refine (PA-RPP)",
+  "presets": [
+    "ship_pipe_100",
+    "ship_pipe_500",
+    "ship_pipe_1000"
+  ],
+  "ppo_model": "/Users/zhangzongyu/Desktop/RL/sprint3/outputs/models/ppo_random.zip",
+  "environments": {
+    "ship_pipe_100": {
+      "info": {
+        "rows": 100,
+        "cols": 100,
+        "obstacle_count": 2216,
+        "obstacle_ratio": 0.2216,
+        "start": [
+          5,
+          5
+        ],
+        "goal": [
+          94,
+          94
+        ],
+        "description": "100×100 船舶管道：舱室块可阻断主通道，需绕障"
+      },
+      "results": [
+        {
+          "algorithm": "A*",
+          "success": true,
+          "path_cost": 145.78174593052006,
+          "path_length": 124,
+          "path_valid": true,
+          "wall_time_sec": 0.006563625000126194,
+          "expanded": 1469,
+          "extra": {}
+        },
+        {
+          "algorithm": "PPO",
+          "success": true,
+          "path_cost": 161.62236636408628,
+          "path_length": 127,
+          "path_valid": true,
+          "wall_time_sec": 0.026993834000677452,
+          "expanded": 126,
+          "extra": {
+            "cost_vs_optimal_pct": 10.865983482675468
+          },
+          "eval": {
+            "eval_episodes": 15,
+            "success_rate": 1.0,
+            "mean_path_cost_on_success": 161.62236636408628,
+            "mean_steps_on_success": 126.0
+          }
+        },
+        {
+          "algorithm": "PPO→A*",
+          "success": true,
+          "path_cost": 145.78174593052006,
+          "path_length": 124,
+          "path_valid": true,
+          "wall_time_sec": 0.06965833300000668,
+          "expanded": 7471,
+          "extra": {
+            "ppo_success": true,
+            "ppo_cost": 161.62236636408628,
+            "ppo_steps": 126,
+            "ppo_time_sec": 0.02612179199968523,
+            "refine_time_sec": 0.04353599900059635,
+            "astar_expanded": 7345,
+            "cost_vs_ppo": -9.80100761418261,
+            "ppo_reached_goal": true,
+            "waypoint_count": 43,
+            "terminal_repair": false,
+            "segments": 42,
+            "astar_segments": 0,
+            "greedy_segments": 42,
+            "string_pull_iters": 4,
+            "optimality_polish": "none",
+            "cost_vs_optimal_pct": 0.0
+          }
+        }
+      ],
+      "benchmark_wall_sec": 12.83
+    },
+    "ship_pipe_500": {
+      "info": {
+        "rows": 500,
+        "cols": 500,
+        "obstacle_count": 70000,
+        "obstacle_ratio": 0.28,
+        "start": [
+          25,
+          25
+        ],
+        "goal": [
+          474,
+          474
+        ],
+        "description": "500×500 船舶管道：中等尺度，主通道有障碍"
+      },
+      "results": [
+        {
+          "algorithm": "A*",
+          "success": true,
+          "path_cost": 712.0041840821092,
+          "path_length": 573,
+          "path_valid": true,
+          "wall_time_sec": 0.2482933339997544,
+          "expanded": 51306,
+          "extra": {}
+        },
+        {
+          "algorithm": "PPO",
+          "success": false,
+          "path_cost": null,
+          "path_length": 2283,
+          "path_valid": false,
+          "wall_time_sec": 0.46974799999952666,
+          "expanded": 2282,
+          "extra": {
+            "reached_goal": false
+          },
+          "eval": {
+            "eval_episodes": 15,
+            "success_rate": 0.0,
+            "mean_path_cost_on_success": null,
+            "mean_steps_on_success": null
+          }
+        },
+        {
+          "algorithm": "PPO→A*",
+          "success": true,
+          "path_cost": 712.0041840821092,
+          "path_length": 573,
+          "path_valid": true,
+          "wall_time_sec": 0.7482591250000041,
+          "expanded": 53588,
+          "extra": {
+            "ppo_success": false,
+            "ppo_cost": null,
+            "ppo_steps": 2282,
+            "ppo_time_sec": 0.47810491700056446,
+            "refine_time_sec": 0.2701537079992704,
+            "astar_expanded": 51306,
+            "cost_vs_ppo": null,
+            "ppo_reached_goal": false,
+            "waypoint_count": 8,
+            "terminal_repair": true,
+            "refine_mode": "global_astar",
+            "cost_vs_optimal_pct": 0.0
+          }
+        }
+      ],
+      "benchmark_wall_sec": 8.655
+    },
+    "ship_pipe_1000": {
+      "info": {
+        "rows": 1000,
+        "cols": 1000,
+        "obstacle_count": 275166,
+        "obstacle_ratio": 0.2752,
+        "start": [
+          50,
+          50
+        ],
+        "goal": [
+          949,
+          949
+        ],
+        "description": "1000×1000 船舶管道：大规模，需绕开舱室块"
+      },
+      "results": [
+        {
+          "algorithm": "A*",
+          "success": true,
+          "path_cost": 1422.5108934811599,
+          "path_length": 1158,
+          "path_valid": true,
+          "wall_time_sec": 1.0631962919997022,
+          "expanded": 198598,
+          "extra": {}
+        },
+        {
+          "algorithm": "PPO",
+          "success": false,
+          "path_cost": null,
+          "path_length": 4510,
+          "path_valid": false,
+          "wall_time_sec": 0.9819793329997992,
+          "expanded": 4509,
+          "extra": {
+            "reached_goal": false
+          },
+          "eval": {
+            "eval_episodes": 15,
+            "success_rate": 0.0,
+            "mean_path_cost_on_success": null,
+            "mean_steps_on_success": null
+          }
+        },
+        {
+          "algorithm": "PPO→A*",
+          "success": true,
+          "path_cost": 1422.5108934811599,
+          "path_length": 1158,
+          "path_valid": true,
+          "wall_time_sec": 2.1823648339996,
+          "expanded": 203107,
+          "extra": {
+            "ppo_success": false,
+            "ppo_cost": null,
+            "ppo_steps": 4509,
+            "ppo_time_sec": 1.0622872080002708,
+            "refine_time_sec": 1.1200773339996886,
+            "astar_expanded": 198598,
+            "cost_vs_ppo": null,
+            "ppo_reached_goal": false,
+            "waypoint_count": 48,
+            "terminal_repair": true,
+            "refine_mode": "global_astar",
+            "cost_vs_optimal_pct": 0.0
+          }
+        }
+      ],
+      "benchmark_wall_sec": 19.424
+    }
+  }
+}

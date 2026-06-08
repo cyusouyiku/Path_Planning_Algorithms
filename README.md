@@ -22,6 +22,7 @@
 - **`sprint1/`**：前期 Sprint 的积累，以**文献与阶段资料**为主（例如路径规划、强化学习在管路/机器人场景中的应用与改进思路），为后面的实现与实验打底。  
 - **`sprint2/`**：中后期 Sprint 的**实现与实验记录**（环境、多种规划与学习方法、实验脚本与文字报告等），对应「把想法做成可复现结果」那一段工作。
 - **`sprint3/`**：船舶管道栅格环境（100 / 500 / 1000）、五种算法横向对比、PPO 随机地图池训练；见 `sprint3/EXPERIMENT_REPORT.md`。
+- **`sprint4/`**：**PPO→A* 精修（PA-RPP）** 混合算法、三档 benchmark 与实验报告；见 `sprint4/EXPERIMENT_REPORT.md`。
 - **`sprint2/`**：100×100 基准环境与算法实现（Sprint 3 的移植来源）。
 
 若需要看具体文件分工或如何在本机复现实验，可打开各 Sprint 目录下的 **`README.md`** 与 **`EXPERIMENT_REPORT.md`**。
